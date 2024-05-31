@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <link rel="stylesheet" href="formulario.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <a href="inicio.html">
+        <button id="botaoVoltar">&#8592; Voltar</button>
+    </a>
+
+    <div class="quadrado"></div>
+    <div class="container">
+        <img src="background.jpg" alt="fundo">
+    </div>
+    <div class="login-container">
+        <br><br>
+        <select id="vendedor" class="input-field" autocomplete="on">
+            <option value="" disabled selected>&nbsp;&nbsp;Vendedor</option>
+            <option value="Vendedor 0">&nbsp;&nbsp;Manutenção</option>
+            <option value="Vendedor 1">&nbsp;&nbsp;Arthur</option>
+            <option value="Vendedor 2">&nbsp;&nbsp;Juan</option>
+            <option value="Vendedor 4">&nbsp;&nbsp;Juliandro</option>
+            <option value="Vendedor 5">&nbsp;&nbsp;Lucas</option>
+            <option value="Vendedor 6">&nbsp;&nbsp;Carlos</option>
+            <option value="Vendedor 7">&nbsp;&nbsp;Felipe</option>
+        </select>
+        <br>
+        <input type="text" id="cliente" class="input-field" placeholder="Cliente" autocomplete="off">
+        <br>
+        <div class="input-group">
+            <input type="date" id="data" class="input-field2" placeholder="Data" autocomplete="on">
+            <input type="time" id="hora" class="input-field" placeholder="Hora" autocomplete="on">
+            <br>
+        </div>
+        <div class="input-group2">
+            <input type="number" id="quantidade" class="input-field-half" placeholder="Unidades" autocomplete="off">
+            <input type="number" id="valorunitario" class="input-field-half" placeholder="Valor" autocomplete="off">
+        </div>
+        <input type="number" id="valortotal" class="input-field" placeholder="Valor Total" autocomplete="off">
+        <br>
+        <button id="enviarButton">Enviar &#8594</button>
+        <br>
+        <span id="error-message" style="color: red;"></span>
+        <br>
+    </div>
+
+    <script>
+        function calcularValorTotal() {
+            const quantidade = document.getElementById('quantidade').value;
+            const valorUnitario = document.getElementById('valorunitario').value;
+            const valorTotal = document.getElementById('valortotal');
+            if (quantidade && valorUnitario && !isNaN(quantidade) && !isNaN(valorUnitario)) {
+                valorTotal.value = (quantidade * valorUnitario).toFixed(2);
+            } else {
+                valorTotal.value = '';
+            }
+        }
+
+        document.getElementById('quantidade').addEventListener('input', calcularValorTotal);
+        document.getElementById('valorunitario').addEventListener('input', calcularValorTotal);
+
+        document.getElementById('enviarButton').addEventListener('click', function (event) {
+            event.preventDefault(); // Impede o envio do formulário padrão
+
+            // Coletar os dados do formulário
+            const vendedorElement = document.getElementById('vendedor');
+            const vendedorSelecionado = vendedorElement.options[vendedorElement.selectedIndex].text;
+            const cliente = document.getElementById('cliente').value;
+            const data = document.getElementById('data').value;
+            const hora = document.getElementById('hora').value;
+            const quantidade = document.getElementById('quantidade').value;
+            const valorUnitario = document.getElementById('valorunitario').value;
+            const valorTotal = document.getElementById('valortotal').value;
+
+            // Criar uma nova linha com os dados do formulário
+            const novaLinha = [vendedorSelecionado, cliente, data, hora, quantidade, valorUnitario, valorTotal];
+
+            // Verificar se há dados armazenados localmente
+            const dadosExistentes = localStorage.getItem('dadosVendas');
+            let jsonData;
+            if (dadosExistentes) {
+                const workbook = XLSX.read(dadosExistentes, { type: 'base64' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            } else {
+                jsonData = [['Vendedor', 'Cliente', 'Data', 'Hora', 'Quantidade', 'Valor Unitário', 'Valor Total']];
+            }
+
+            // Adicionar a nova linha ao array
+            jsonData.push(novaLinha);
+
+            // Converter o array de volta para uma planilha
+            const novoWorksheet = XLSX.utils.aoa_to_sheet(jsonData);
+
+            // Criar um novo workbook
+            const novoWorkbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(novoWorkbook, novoWorksheet, 'Vendas');
+
+            // Salvar o novo workbook no localStorage
+            const wbout = XLSX.write(novoWorkbook, { bookType: 'xlsx', type: 'base64' });
+            localStorage.setItem('dadosVendas', wbout);
+
+            alert('Dados salvos com sucesso!');
+        });
+        document.getElementById('enviarButton').addEventListener('click', function (event) {
+            event.preventDefault(); // Impede o envio do formulário padrão
+
+            // Coletar os dados do formulário
+            const vendedorElement = document.getElementById('vendedor');
+            const vendedorSelecionado = vendedorElement.options[vendedorElement.selectedIndex].text;
+            const cliente = document.getElementById('cliente');
+            const data = document.getElementById('data');
+            const hora = document.getElementById('hora');
+            const quantidade = document.getElementById('quantidade');
+            const valorUnitario = document.getElementById('valorunitario');
+            const valorTotal = document.getElementById('valortotal');
+
+            // Criar uma nova linha com os dados do formulário
+            const novaLinha = [vendedorSelecionado, cliente.value, data.value, hora.value, quantidade.value, valorUnitario.value, valorTotal.value];
+
+            // Limpar os campos do formulário
+            cliente.value = '';
+            data.value = '';
+            hora.value = '';
+            quantidade.value = '';
+            valorUnitario.value = '';
+            valorTotal.value = '';
+
+            // Restante do seu código...
+        });
+
+    </script>
+</body>
+
+</html>

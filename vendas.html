@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas</title>
+    <link rel="stylesheet" href="vendas.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <a href="inicio.html">
+        <button id="botaoVoltar">&#8592; Voltar</button>
+    </a>
+    <div class="quadrado"></div>
+    <div class="container">
+        <img src="background.jpg" alt="fundo">
+    </div>
+
+    <div id="tabelaContainer">
+        <table id="tabelaVendas">
+            <!-- Cabeçalho da tabela -->
+            <thead>
+                <tr>
+                    <th>Vendedor</th>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Quantidade</th>
+                    <th>Unidade</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <!-- Corpo da tabela -->
+            <tbody id="corpoTabela">
+                <!-- As linhas da tabela serão adicionadas aqui -->
+            </tbody>
+        </table>
+        <!-- Controles de páginação -->
+        <div id="paginacao">
+            <button id="paginaAnterior">Anterior</button>
+            <span id="paginaAtual">Página 1</span>
+            <button id="proximaPagina">Próxima</button>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis para controlar a paginação
+        let paginaAtual = 1;
+        const linhasPorPagina = 10; // Defina o número de linhas por página aqui
+
+        // Função para ir para a próxima página
+        function proximaPagina() {
+            const dadosExistentes = localStorage.getItem('dadosVendas');
+            if (dadosExistentes) {
+                console.log('Dados existentes encontrados.');
+
+                const workbook = XLSX.read(dadosExistentes, { type: 'base64' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                const totalPaginas = Math.ceil((jsonData.length - 1) / linhasPorPagina); // Desconta a linha do cabeçalho
+                console.log('Total de páginas:', totalPaginas);
+
+                if (paginaAtual < totalPaginas) {
+                    paginaAtual++;
+                    console.log('Página atual:', paginaAtual);
+                    preencherTabela();
+                } else {
+                    console.log('Não há mais páginas para avançar.');
+                }
+            } else {
+                console.log('Nenhum dado encontrado.');
+            }
+        }
+
+        // Função para ir para a página anterior
+        function paginaAnterior() {
+            if (paginaAtual > 1) {
+                paginaAtual--;
+                preencherTabela();
+            }
+        }
+
+        // Event listeners para os botões de paginação
+        document.getElementById('proximaPagina').addEventListener('click', proximaPagina);
+        document.getElementById('paginaAnterior').addEventListener('click', paginaAnterior);
+
+        // Chamando a função para preencher a tabela ao carregar a página
+        preencherTabela();
+
+        // Função para preencher a tabela
+        function preencherTabela() {
+            const dadosExistentes = localStorage.getItem('dadosVendas');
+            if (dadosExistentes) {
+                const workbook = XLSX.read(dadosExistentes, { type: 'base64' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                const corpoTabela = document.getElementById('corpoTabela');
+                corpoTabela.innerHTML = ''; // Limpa a tabela antes de preenchê-la novamente
+
+                const startIndex = (paginaAtual - 1) * linhasPorPagina;
+                const endIndex = startIndex + linhasPorPagina;
+                const dataPagina = jsonData.slice(1).slice(startIndex, endIndex); // Ignora a primeira linha (cabeçalho)
+
+                // Preenche a tabela com os dados da página atual
+                dataPagina.forEach(row => {
+                    const newRow = document.createElement('tr');
+                    row.forEach(cellData => {
+                        const newCell = document.createElement('td');
+                        newCell.textContent = cellData;
+                        newRow.appendChild(newCell);
+                    });
+                    corpoTabela.appendChild(newRow);
+                });
+
+                const totalPaginas = Math.ceil((jsonData.length - 1) / linhasPorPagina); // Desconta a linha do cabeçalho
+                document.getElementById('paginaAtual').textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+            } else {
+                console.log('Nenhum dado encontrado.');
+            }
+        }
+    </script>
+</body>
+
+</html>

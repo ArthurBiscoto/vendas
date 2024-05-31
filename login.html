@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<style>
+</style>
+
+<body>
+    <div class="container">
+        <img src="background.jpg" alt="fundo">
+    </div>
+
+    <div class="login-container">
+        <div class="custom-text">
+            Bem Vindo!
+        </div>
+        <br><br>
+        <input type="text" id="username" class="input-field" placeholder="Nome de usuário" autocomplete="off">
+        <br>
+        <input type="password" id="password" class="input-field" placeholder="Senha" autocomplete="off">
+        <br>
+        <button id="loginButton">Conectar</button>
+        <span id="error-message" style="color: red;"></span> <!-- Mensagem de erro -->
+    </div>
+    </div>
+
+</body>
+
+<script>
+    document.getElementById("loginButton").addEventListener("click", function () {
+        login();
+    });
+
+    function login() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var errorMessage = document.getElementById("error-message");
+
+        if (username === "Manutenção" && password === "Manutenção") {
+            window.location.href = "inicio.html"
+            document.getElementById("username").classList.add("success-border");
+            document.getElementById("password").classList.add("success-border");
+        }
+        else if (username === "Arthur" && password === "Edu@rdo01") {
+            window.location.href = "inicio.html"
+            document.getElementById("username").classList.add("success-border");
+            document.getElementById("password").classList.add("success-border");
+        }
+        else if (username === "Juan" && password === "123") {
+            window.location.href = "inicio.html"
+            document.getElementById("username").classList.add("success-border");
+            document.getElementById("password").classList.add("success-border");
+        }
+        else if (username === "Juliandro" && password === "123") {
+            window.location.href = "inicio.html"
+            document.getElementById("username").classList.add("success-border");
+            document.getElementById("password").classList.add("success-border");
+        }
+        else if (username === "Lucas" && password === "250905") {
+            window.location.href = "inicio.html"
+            document.getElementById("username").classList.add("success-border");
+            document.getElementById("password").classList.add("success-border");
+        }
+        else if (username === "Carlos" && password === "123") {
+            window.location.href = "inicio.html"
+            document.getElementById("username").classList.add("success-border");
+            document.getElementById("password").classList.add("success-border");
+        }
+        else if (username === "Felipe" && password === "123") {
+            window.location.href = "inicio.html"
+            document.getElementById("username").classList.add("success-border");
+            document.getElementById("password").classList.add("success-border");
+        }
+        else {
+            // Credenciais incorretas, exiba uma mensagem de erro
+            errorMessage.textContent = "Usuario ou senha incorretos";
+
+            // Adicionar classe para destacar campos de entrada
+            document.querySelectorAll(".input-field").forEach(function (element) {
+                element.classList.add("error-border");
+            });
+        }
+        setTimeout(function () {
+            errorMessage.textContent = ""; // Limpa o texto da mensagem de erro
+            document.querySelectorAll(".input-field").forEach(function (element) {
+                element.classList.remove("error-border"); // Remove a classe que destaca os campos de entrada
+            });
+        }, 2000); // 2000 milissegundos = 2 segundos
+    }
+</script>
+
+</html>
