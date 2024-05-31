@@ -57,25 +57,47 @@ img {
 
 input,
 .input-field,
-.input-field,
-.input-field-half {
-    padding: 20px;
+.input-field {
+    padding: 10px;
     height: 70px;
-    width: 90%;
+    width: 100%;
     border: solid 3px orange;
     border-radius: 25px;
     outline: none;
     font-size: 20px;
     margin-bottom: 15px;
     box-sizing: border-box;
+    position: relative;
 }
+
+.input-field-half {}
 
 .input-field2 {
     height: 75px;
-    width: 185px;
+    width: 48%;
     color: black;
-    left: 50%;
+    left: 25%;
+    transform: translateX(-50%);
     margin-left: 10px;
+}
+
+.input-field3 {
+    height: 75px;
+    width: 28%;
+    color: black;
+    left: 12%;
+    transform: translateX(-50%);
+    margin-left: 10px;
+}
+
+.input-field4 {
+    height: 75px;
+    width: 78%;
+    color: black;
+    left: 37.5%;
+    transform: translateX(-50%);
+    margin-left: 10px;
+    position: relative;
 }
 
 input[type="text"]:focus,
@@ -133,7 +155,7 @@ button:hover {
 
 .quadrado {
     position: fixed;
-    top: -5px;
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
     width: 110%;
@@ -174,7 +196,9 @@ button:hover {
 
     .login-container {
         width: 90%;
-        padding: 10px;
+        height: 90%;
+        padding: 5px;
+        margin-top: 70px;
     }
 
     button {
@@ -201,13 +225,15 @@ button:hover {
         height: 45px;
         width: 175px;
     }
+
     #botaoBaixar:hover {
         background-color: #45a049;
     }
+
     #botaoVoltar {
-        top: 1.2%;
-        left: -3%;
-        height: 40px;
+        top: 0.1%;
+        left: 1%;
+        height: 45px;
         width: 140px;
         z-index: 9999;
         position: fixed;
@@ -215,15 +241,18 @@ button:hover {
         border: #5696a5;
         background-color: black;
         margin: 0px;
-        font-size: 20px;
+        font-size: 23px;
         font-weight: 600;
         color: white;
     }
+
     #vendedor {
-        color: #9a9a9a; /* Muda a cor da fonte */
-        font-size: 21px; /* Tamanho da fonte */
+        color: #9a9a9a;
+        /* Muda a cor da fonte */
+        font-size: 21px;
+        /* Tamanho da fonte */
         text-align: center;
-        
+
     }
 
 }
