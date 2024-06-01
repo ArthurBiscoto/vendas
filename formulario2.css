@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI Semibold', sans-serif;
+    background-size: cover;
+    position: relative;
+    overflow-x: hidden;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.container img {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+}
+
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.login-container {
+    left: 50%;
+    transform: translate(-50%);
+    position: fixed;
+    margin: 85px auto;
+    padding: 2vh 2vw;
+    border-radius: 10vw;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: solid 1vw #5696a5;
+    color: white;
+    text-align: center;
+    z-index: 2;
+    box-shadow: 0 0.8vw 1.5vw black;
+    width: 50vw;
+    max-width: 500px;
+}
+
+#vendedor {
+    color: #9a9a9a;
+    font-size: 20px !important; /* Aumente este valor conforme necessário */
+    text-align: center;
+    padding: 10px;
+}
+
+#cliente {
+    color: #9a9a9a;
+    font-size: 20px !important; /* Aumente este valor conforme necessário */
+    padding: 25px;
+}
+#quantidade {
+    color: #9a9a9a;
+    font-size: 19px !important; /* Aumente este valor conforme necessário */
+    padding: 20px;
+}
+#valorunitario {
+    color: #9a9a9a;
+    font-size: 19px !important; /* Aumente este valor conforme necessário */
+    padding: 20px;
+}
+#valortotal {
+    color: #9a9a9a;
+    font-size: 20px !important; /* Aumente este valor conforme necessário */
+    padding: 20px;
+}
+
+input,
+.input-field {
+    padding: 2vh;
+    height: 8vh;
+    width: 85%;
+    border: solid 0.3vw orange;
+    border-radius: 4.5vw;
+    outline: none;
+    font-size: 4vw;
+    margin-bottom: 2.5vh;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.input-field2 {
+    height: 8vh;
+    width: 23vh;
+    color: black;
+    margin-left: 1vw;
+}
+
+.input-field3 {
+    height: 8vh;
+    width: 11.5vh;
+    color: black;
+    margin-left: 3vw;
+}
+
+.input-field4 {
+    height: 8vh;
+    width: 85%;
+    color: black;
+    margin-left: 0.5vw;
+    position: relative;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    background-color: #ccc;
+    border: 0.4vw solid orange;
+    box-shadow: 0 0 0 white;
+}
+
+button {
+    width: 84%;
+    height: 8vh;
+    margin-left: 0.1vh;
+    padding: 1.5vh;
+    border: none;
+    border-radius: 4.5vw;
+    background-color: #AACFD7;
+    color: black;
+    font-size: 5vw;
+    margin-bottom: 1.5vh;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5696a5;
+    color: white;
+    transform: scale(1.03);
+}
+
+.input-group,
+.input-group2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1vw;
+}
+
+.input-field-half {
+    width: calc(45% - 5vw);
+    margin-left: 0vh;
+}
+.input-field-half2 {
+    width: calc(45% - 3.5vw);
+    margin-left: 1.5vh;
+}
+
+.quadrado {
+    position: fixed;
+    top: -1.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110%;
+    max-width: 755px;
+    height: 8vh;
+    background-color: black;
+    border: solid 1vw #5696a5;
+    text-align: center;
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2vw;
+    box-sizing: border-box;
+}
+
+.back-arrow,
+.iniciobutton {
+    font-size: 3vw;
+    text-decoration: none;
+    color: white;
+    z-index: 9999;
+    position: fixed;
+    margin-left: 2vw;
+    margin-top: 1vh;
+}
+
+.back-arrow:hover,
+.iniciobutton:hover {
+    color: gray;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 600px;
+        height: auto;
+    }
+
+    .login-container {
+        width: 90%;
+        height: 70vh;
+        padding: 5px;
+        margin-top: 20%;
+    }
+
+    button {
+        padding: 1vh;
+        font-size: 4.8vw;
+    }
+
+    .back-arrow,
+    .iniciobutton {
+        font-size: 2.4vw;
+    }
+
+    #botaoBaixar {
+        position: absolute;
+        top: 0.7vh;
+        left: 50%;
+        padding: 1vh 2vw;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        z-index: 9999;
+        height: 4.5vh;
+        width: 17.5vw;
+    }
+
+    #botaoBaixar:hover {
+        background-color: #45a049;
+    }
+
+    #botaoVoltar {
+        top: 0.1vh;
+        left: 0vw;
+        height: 0vh;
+        width: 6vw;
+        z-index: 9999;
+        position: fixed;
+        border: #5696a5;
+        background-color: black;
+        margin: 15;
+        font-size: 6vw;
+        font-weight: 600;
+        color: white;
+        display: flex;
+    }
+
+    #vendedor {
+        color: #9a9a9a;
+        font-size: 2.1vw;
+        text-align: center;
+    }
+}
