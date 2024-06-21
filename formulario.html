@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="formulario2.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <style>
+
+    </style>
 </head>
 
 <body>
@@ -55,7 +58,16 @@
         <br>
     </div>
 
+    <div id="qrCodeOverlay">
+        <div id="qrCodeContainer">
+            <img id="qrCodeImage" src="qrdoe.jpg" alt="QR Code">
+            <br>
+        </div>
+        <button id="okButton">OK</button>
+    </div>
+
     <script>
+        // Função para calcular o valor total
         function calcularValorTotal() {
             const quantidade = document.getElementById('quantidade').value;
             const valorUnitario = document.getElementById('valorunitario').value;
@@ -66,13 +78,15 @@
                 valorTotal.value = '';
             }
         }
-
+    
+        // Adicionar listeners para calcular o valor total
         document.getElementById('quantidade').addEventListener('input', calcularValorTotal);
         document.getElementById('valorunitario').addEventListener('input', calcularValorTotal);
-
+    
+        // Adicionar listener para o botão Enviar
         document.getElementById('enviarButton').addEventListener('click', function (event) {
-            event.preventDefault(); // Impede o envio do formulário padrão
-
+            event.preventDefault(); // Impedir o envio do formulário padrão
+    
             // Coletar os dados do formulário
             const vendedorElement = document.getElementById('vendedor');
             const vendedorSelecionado = vendedorElement.options[vendedorElement.selectedIndex].text;
@@ -82,10 +96,10 @@
             const quantidade = document.getElementById('quantidade').value;
             const valorUnitario = document.getElementById('valorunitario').value;
             const valorTotal = document.getElementById('valortotal').value;
-
+    
             // Criar uma nova linha com os dados do formulário
             const novaLinha = [vendedorSelecionado, cliente, data, hora, quantidade, valorUnitario, valorTotal];
-
+    
             // Verificar se há dados armazenados localmente
             const dadosExistentes = localStorage.getItem('dadosVendas');
             let jsonData;
@@ -97,51 +111,36 @@
             } else {
                 jsonData = [['Vendedor', 'Cliente', 'Data', 'Hora', 'Quantidade', 'Valor Unitário', 'Valor Total']];
             }
-
+    
             // Adicionar a nova linha ao array
             jsonData.push(novaLinha);
-
+    
             // Converter o array de volta para uma planilha
             const novoWorksheet = XLSX.utils.aoa_to_sheet(jsonData);
-
+    
             // Criar um novo workbook
             const novoWorkbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(novoWorkbook, novoWorksheet, 'Vendas');
-
+    
             // Salvar o novo workbook no localStorage
             const wbout = XLSX.write(novoWorkbook, { bookType: 'xlsx', type: 'base64' });
             localStorage.setItem('dadosVendas', wbout);
-
+    
+            // Mostrar o overlay com QR code após 2 segundos
+            setTimeout(function () {
+                document.getElementById('qrCodeOverlay').style.display = 'flex';
+            }, 2000);
+    
+            // Exibir mensagem de sucesso
             alert('Dados salvos com sucesso!');
         });
-        document.getElementById('enviarButton').addEventListener('click', function (event) {
-            event.preventDefault(); // Impede o envio do formulário padrão
-
-            // Coletar os dados do formulário
-            const vendedorElement = document.getElementById('vendedor');
-            const vendedorSelecionado = vendedorElement.options[vendedorElement.selectedIndex].text;
-            const cliente = document.getElementById('cliente');
-            const data = document.getElementById('data');
-            const hora = document.getElementById('hora');
-            const quantidade = document.getElementById('quantidade');
-            const valorUnitario = document.getElementById('valorunitario');
-            const valorTotal = document.getElementById('valortotal');
-
-            // Criar uma nova linha com os dados do formulário
-            const novaLinha = [vendedorSelecionado, cliente.value, data.value, hora.value, quantidade.value, valorUnitario.value, valorTotal.value];
-
-            // Limpar os campos do formulário
-            cliente.value = '';
-            data.value = '';
-            hora.value = '';
-            quantidade.value = '';
-            valorUnitario.value = '';
-            valorTotal.value = '';
-
-            // Restante do seu código...
+    
+        // Adicionar listener para o botão OK
+        document.getElementById('okButton').addEventListener('click', function () {
+            document.getElementById('qrCodeOverlay').style.display = 'none';
         });
-
     </script>
+    
 </body>
 
 </html>
