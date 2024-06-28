@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Arquivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #252A2F;
+            color: #fff;
+        }
+
+        .h1 {
+            text-align: center;
+        }
+
+        #fileInputContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #fileList {
+            list-style-type: none;
+            padding: 0px;
+            text-align: center;
+        }
+
+        #fileList li {
+            margin-bottom: 10px;
+    
+        }
+
+        #fileList li a {
+            color: #5696a5;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            text-align: center;
+        }
+
+        #fileList li a:hover {
+            color: #f39c12;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            #fileInputContainer {
+                margin-top: 10px;
+            }
+
+            #addButton,
+            #saveButton {
+                width: 100%;
+                padding: 10px;
+                font-size: 17px;
+                background-color: #5696a5;
+                color: #fff;
+                font-weight: 500;
+                border-radius: 5px;
+                border: solid #fff 1px;
+            }
+
+            #fileInput {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="h1">Lista de Arquivos</h1>
+    <ul id="fileList">
+        <!-- Lista de arquivos vai aqui -->
+    </ul>
+    <button id="addButton">Adicionar</button>
+
+    <div id="fileInputContainer">
+        <input type="file" id="fileInput">
+        <button id="saveButton">Salvar</button>
+    </div>
+
+    <script>
+        document.getElementById('addButton').addEventListener('click', function () {
+            document.getElementById('fileInputContainer').style.display = 'block';
+        });
+
+        document.getElementById('saveButton').addEventListener('click', function () {
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const seconds = now.getSeconds().toString().padStart(2, '0');
+                const timeString = `${hours}:${minutes}:${seconds}`;
+
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(file);
+                link.textContent = `imagem (${timeString})`;
+                link.target = "_blank";
+
+                listItem.appendChild(link);
+                fileList.appendChild(listItem);
+
+                // Limpar o input de arquivo
+                fileInput.value = '';
+                document.getElementById('fileInputContainer').style.display = 'none';
+            } else {
+                alert('Por favor, selecione um arquivo para salvar.');
+            }
+        });
+    </script>
+</body>
+
+</html>
