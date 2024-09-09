@@ -1,0 +1,215 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI Semibold', sans-serif;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.img {
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    position: fixed;
+    transition: 1s;
+}
+
+@media only screen and (max-width: 480px) {
+    .img {
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-20%);
+    }
+}
+
+
+button {
+    width: 100%;
+    height: 80px;
+    padding: 0px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: #AACFD7;
+    color: black;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5696a5;
+    color: white;
+}
+
+@media (max-width: 1920px) {
+
+    .btn {
+        display: inline-block;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        border: 3px solid white;
+        cursor: pointer;
+        position: absolute;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        left: 50%;
+        top: 2%;
+        width: 95%;
+        transform: translateX(-50%);
+        text-align: center;
+       }
+       
+       .btn::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: orange;
+        transform: translateX(-100%);
+        transition: all .3s;
+        z-index: -1;
+       }
+       
+       .btn:hover::before {
+        transform: translateX(0);
+       }
+    /* Outros estilos ... */
+
+    /* Estilos para a tabela */
+    #tabelaVendas {
+        width: 95%;
+        /* Definir a largura da tabela como 100% */
+        border-spacing: 0; /* Substituir o border-collapse por border-spacing */
+        font-size: 16px;
+        margin-top: 5px;
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%);
+    }
+
+    /* Estilos para linhas pares */
+    #tabelaVendas tr:nth-child(even) {
+        background-color: #f2f2f2;
+        /* Cor de fundo das linhas pares */
+    }
+
+    /* Estilos para linhas ímpares */
+    #tabelaVendas tr:nth-child(odd) {
+        background-color: #ccc;
+        /* Cor de fundo das linhas ímpares */
+    }
+
+    /* Estilos para células */
+    #tabelaVendas td,
+    #tabelaVendas th {
+        padding: 10px 5px;
+        /* Espaçamento interno */
+        border: 1px solid black;
+        /* Borda das células */
+        text-align: center;
+        /* Alinhamento do texto */
+    }
+
+    /* Definir larguras das colunas */
+    #tabelaVendas th:nth-child(1),
+    #tabelaVendas td:nth-child(1) {
+        width: 80px; /* Largura da primeira coluna (Cliente) */
+    }
+
+    #tabelaVendas th:nth-child(2),
+    #tabelaVendas td:nth-child(2) {
+        width: 140px; /* Largura da segunda coluna (Data) */
+    }
+
+    #tabelaVendas th:nth-child(3),
+    #tabelaVendas td:nth-child(3) {
+        width: 15px; /* Largura da terceira coluna (Quantidade) */
+    }
+
+    #tabelaVendas th:nth-child(4),
+    #tabelaVendas td:nth-child(4) {
+        width: 15px; /* Largura da quarta coluna (Unidade) */
+    }
+
+    #tabelaVendas th:nth-child(5),
+    #tabelaVendas td:nth-child(5) {
+        width: 30px; /* Largura da quinta coluna (Total) */
+    }
+
+    /* Estilos para o contêiner da tabela */
+    #tabelaContainer {
+        max-width: 80%;
+        /* Definir a largura máxima do contêiner da tabela */
+        margin: 0 auto;
+        /* Centralizar o contêiner na página */
+    }
+
+    #tabelaVendas th {
+        background-color: orange;
+        border: solid black 1.5px;
+        /* Cor de fundo do cabeçalho */
+    }
+
+    /* Estilos para os botões de páginação */
+    #paginacao {
+        position: absolute;
+        width: 100%;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        z-index: 999;
+    }
+
+    #paginacao button {
+        padding: 10px 20px;
+        margin: 0 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: orange;
+        color: black;
+        font-size: 16px;
+        cursor: pointer;
+        height: 40px;
+        width: 100px;
+        display: inline-block;
+        /* Alteração aqui */
+    }
+
+    #paginacao button:hover {
+        background-color: rgb(184, 119, 0);
+        color: white;
+    }
+
+    #paginaAtual {
+        font-weight: 600;
+        font-size: 18px;
+        color: white;
+    }
+}    

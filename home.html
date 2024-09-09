@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <img class="img" src="background.jpg" alt="bk">
+
+    <div class="container">
+        <button class="btn" id="loginButton" onclick="window.location.href='formulario.html'">Começar a vender</button>
+        <button class="btn" id="visualizarButton" onclick="window.location.href='vendas.html'">Visualizar vendas</button>
+        <button class="btn" id="imprimirButton" onclick="baixarArquivo()">Imprimir vendas</button>
+        <button class="btn" id="limparDadosButton" onclick="limparDados()">Limpar Dados</button> <!-- Novo botão -->
+    </div>
+
+    <script>
+        function baixarArquivo() {
+            const dadosExistentes = localStorage.getItem('dadosVendas');
+            if (dadosExistentes) {
+                const workbook = XLSX.read(dadosExistentes, { type: 'base64' });
+                XLSX.writeFile(workbook, 'dadosVendas.xlsx');
+            } else {
+                alert('Nenhum dado encontrado para download.');
+            }
+        }
+
+        function limparDados() {
+            localStorage.removeItem('dadosVendas'); // Remove o item específico
+            alert('Dados removidos com sucesso.');
+        }
+    </script>
+</body>
+
+</html>

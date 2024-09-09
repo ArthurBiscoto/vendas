@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI Semibold', sans-serif;
+    background-color: black;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.img {
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    position: fixed;
+    opacity: 50%;
+    transition: 1s;
+}
+
+@media only screen and (max-width: 1920px) {
+
+}
+
+@media only screen and (max-width: 480px) {
+    .img {
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-20%);
+    }
+}
+
+.container {
+    width: 90%;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    width: 350px;
+    height: 70px;
+    padding: 0px;
+    margin-bottom: 30px;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(45deg, rgba(255, 0, 0, 0.600), rgba(0, 60, 255, 0.600));
+    backdrop-filter: blur(5px);
+    color: black;
+    font-size: 25px;
+    cursor: pointer;
+    position: relative;
+    transition: 0.5s;
+    box-shadow: 0px 0px 10px 5px black;
+}
+
+.btn:hover {
+    color: white;
+    background-image: linear-gradient(45deg, rgba(255, 0, 0, 0.50), rgba(0, 60, 255, 0.50));
+    transform: scale(1.02);
+}
+
+@media (max-width: 600px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .quadrado {
+        position: fixed;
+        top: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 110%;
+        max-width: 755px;
+        height: 70px;
+        background-color: black;
+        border: solid 5px #5696a5;
+        text-align: center;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    #botaoVoltar {
+        top: 1.5%;
+        left: -1%;
+        height: 40px;
+        width: 180px;
+        z-index: 9999;
+        position: fixed;
+        border-radius: 15px;
+        border: #5696a5;
+        background-color: black;
+        margin: 0px;
+        font-size: 20px;
+        font-weight: 600;
+        color: white;
+    }
+}

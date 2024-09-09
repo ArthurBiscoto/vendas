@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas</title>
+    <link rel="stylesheet" href="vendas.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <img class="img" src="background.jpg" alt="bk">
+    <a class="btn" href="home.html">Back to home</a>
+    <div id="tabelaContainer">
+        <table id="tabelaVendas">
+            <!-- Cabeçalho da tabela -->
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Qtd</th>
+                    <th>Uni</th>
+                    <th>V.Total</th>
+                </tr>
+            </thead>
+            <!-- Corpo da tabela -->
+            <tbody id="corpoTabela">
+                <!-- As linhas da tabela serão adicionadas aqui -->
+            </tbody>
+        </table>
+        <!-- Controles de páginação -->
+        <div id="paginacao">
+            <button id="paginaAnterior">Anterior</button>
+            <span id="paginaAtual">Página 1</span>
+            <button id="proximaPagina">Próxima</button>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis para controlar a paginação
+        let paginaAtual = 1;
+        const linhasPorPagina = 13; // Defina o número de linhas por página aqui
+    
+        // Função para ir para a próxima página
+        function proximaPagina() {
+            const dadosExistentes = localStorage.getItem('dadosVendas');
+            if (dadosExistentes) {
+                const workbook = XLSX.read(dadosExistentes, { type: 'base64' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+                const totalPaginas = Math.ceil((jsonData.length - 1) / linhasPorPagina); // Desconta a linha do cabeçalho
+    
+                if (paginaAtual < totalPaginas) {
+                    paginaAtual++;
+                    preencherTabela();
+                }
+            }
+        }
+    
+        // Função para ir para a página anterior
+        function paginaAnterior() {
+            if (paginaAtual > 1) {
+                paginaAtual--;
+                preencherTabela();
+            }
+        }
+    
+        // Event listeners para os botões de paginação
+        document.getElementById('proximaPagina').addEventListener('click', proximaPagina);
+        document.getElementById('paginaAnterior').addEventListener('click', paginaAnterior);
+    
+        // Chamando a função para preencher a tabela ao carregar a página
+        preencherTabela();
+    
+        // Função para formatar a data no formato "dd/mm/aaaa-hh:mm"
+        function formatarData(dataISO) {
+            const [data, hora] = dataISO.split('T');
+            const [ano, mes, dia] = data.split('-');
+            return `${dia}/${mes}/${ano}-${hora}`;
+        }
+    
+        // Função para preencher a tabela
+        function preencherTabela() {
+            const dadosExistentes = localStorage.getItem('dadosVendas');
+            if (dadosExistentes) {
+                const workbook = XLSX.read(dadosExistentes, { type: 'base64' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+                const corpoTabela = document.getElementById('corpoTabela');
+                corpoTabela.innerHTML = ''; // Limpa a tabela antes de preenchê-la novamente
+    
+                const startIndex = (paginaAtual - 1) * linhasPorPagina;
+                const endIndex = startIndex + linhasPorPagina;
+                const dataPagina = jsonData.slice(1).slice(startIndex, endIndex); // Ignora a primeira linha (cabeçalho)
+    
+                // Preenche a tabela com os dados da página atual
+                dataPagina.forEach(row => {
+                    const newRow = document.createElement('tr');
+                    row.forEach((cellData, index) => {
+                        const newCell = document.createElement('td');
+    
+                        // Verifica se o índice da coluna é o esperado para a data e hora
+                        if (index === 1) { // Ajuste o índice conforme necessário
+                            cellData = formatarData(cellData);
+                        }
+    
+                        newCell.textContent = cellData;
+                        newRow.appendChild(newCell);
+                    });
+                    corpoTabela.appendChild(newRow);
+                });
+    
+                const totalPaginas = Math.ceil((jsonData.length - 1) / linhasPorPagina); // Desconta a linha do cabeçalho
+                document.getElementById('paginaAtual').textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+            } else {
+                console.log('Nenhum dado encontrado.');
+            }
+        }
+    </script>
+    
+</body>
+
+</html>

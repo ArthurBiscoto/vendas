@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <link rel="stylesheet" href="formulario.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <img class="img" src="background.jpg" alt="bk">
+    <a class="btn" href="home.html">Back to home</a>
+    <form class="container">
+        <input type="text" id="cliente" class="input-field" placeholder="Cliente" autocomplete="off" maxlength="20" required>
+        <br>
+        <input type="datetime-local" id="data" class="input-field" placeholder="Data" autocomplete="on" required>
+        <br>
+        <input type="number" id="quantidade" class="input-field" placeholder="Unidades" autocomplete="off" maxlength="4" required>
+        <br>
+        <input type="number" id="valorunitario" class="input-field" placeholder="Valor unitario" autocomplete="off" maxlength="4" required>
+        <br>
+        <input type="number" id="valortotal" class="input-field" placeholder="Valor Total" autocomplete="off" required>
+        <br>
+        <button class="btn2" id="enviarButton">Enviar</button>
+        <br>
+        <span id="error-message" style="color: red;"></span>
+        <br>
+    </form>
+
+
+    <script>
+
+function calcularValorTotal() {
+    const quantidade = document.getElementById('quantidade').value;
+    const valorUnitario = document.getElementById('valorunitario').value;
+    const valorTotal = document.getElementById('valortotal');
+    if (quantidade && valorUnitario && !isNaN(quantidade) && !isNaN(valorUnitario)) {
+        valorTotal.value = (quantidade * valorUnitario).toFixed(2);
+    } else {
+        valorTotal.value = '';
+    }
+}
+
+// Adicionar listeners para calcular o valor total
+document.getElementById('quantidade').addEventListener('input', calcularValorTotal);
+document.getElementById('valorunitario').addEventListener('input', calcularValorTotal);
+
+// Adicionar listener para o botão Enviar
+document.getElementById('enviarButton').addEventListener('click', function (event) {
+    event.preventDefault(); // Impedir o envio do formulário padrão
+
+    // Coletar os dados do formulário
+    const cliente = document.getElementById('cliente').value;
+    const data = document.getElementById('data').value;
+    const quantidade = document.getElementById('quantidade').value;
+    const valorUnitario = document.getElementById('valorunitario').value;
+    const valorTotal = document.getElementById('valortotal').value;
+
+    // Criar uma nova linha com os dados do formulário
+    const novaLinha = [cliente, data, quantidade, valorUnitario, valorTotal];
+
+    // Verificar se há dados armazenados localmente
+    const dadosExistentes = localStorage.getItem('dadosVendas');
+    let jsonData;
+    if (dadosExistentes) {
+        const workbook = XLSX.read(dadosExistentes, { type: 'base64' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    } else {
+        jsonData = [['Cliente', 'Data', 'Quantidade', 'Valor Unitário', 'Valor Total']];
+    }
+
+    // Adicionar a nova linha ao array
+    jsonData.push(novaLinha);
+
+    // Converter o array de volta para uma planilha
+    const novoWorksheet = XLSX.utils.aoa_to_sheet(jsonData);
+
+    // Criar um novo workbook
+    const novoWorkbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(novoWorkbook, novoWorksheet, 'Vendas');
+
+    // Salvar o novo workbook no localStorage
+    const wbout = XLSX.write(novoWorkbook, { bookType: 'xlsx', type: 'base64' });
+    localStorage.setItem('dadosVendas', wbout);
+
+    // Exibir mensagem de sucesso
+    alert('Dados salvos com sucesso!');
+
+    // Resetar os campos do formulário
+    document.querySelector('.container').reset();
+});
+
+    </script>
+    
+</body>
+
+</html>
